@@ -817,30 +817,4 @@ Complete **Part 9 of the Submission Sheet**.
 
 The written reflection may be completed after the laboratory period.
 
----
 
-# Optional Advanced Challenge – Remote Streaming
-
-Students who finish early may explore remote streaming.
-
-First determine the Jetson's IP address:
-
-```bash
-ip addr show
-```
-
-Jetson-Inference can also stream inference results using WebRTC.
-
-For example, the previous course implementation used:
-
-```bash
-./imagenet --network=resnet-18 webrtc://@:8554/output
-```
-
-A remote device can then access the stream through a web browser using the
-Jetson's IP address.
-
-This activity is **not required for Lab 1**.
-
-It may be revisited later when we study communication and end-to-end AIoT
-systems.
