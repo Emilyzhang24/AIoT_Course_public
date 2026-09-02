@@ -489,18 +489,13 @@ baseline inference result.
 
 ---
 
-# Part 8 – Live Camera Inference
+# Part 8 – Live Camera Inference and Remote Streaming
 
 **Complete this part if time permits.**
 
-Before beginning, verify again that the CSI camera is detected:
+In this part, you will replace the stored image used in Part 7 with a live physical scene captured by the CSI camera.
 
-```bash
-v4l2-ctl --list-devices
-```
-
-The goal is to replace the stored image used in Part 7 with a live physical
-scene:
+The processing pipeline becomes:
 
 ```text
 Physical Scene
@@ -513,25 +508,279 @@ Pretrained AI Model
       ↓
 Real-Time Inference
       ↓
-Prediction / Visualization
+WebRTC Streaming
+      ↓
+Remote Browser
 ```
 
-Use the instructor-tested live-camera command for the Jetson-Inference
-installation available on your system.
+---
+
+## Step 1 – Verify the CSI Camera
+
+Run:
+
+```bash
+v4l2-ctl --list-devices
+```
+
+Confirm that the Sony IMX219 CSI camera is detected.
+
+A typical result is:
+
+```text
+vi-output, imx219 8-0010 (platform:54080000.vi:4):
+
+    /dev/video0
+```
+
+You may also check:
+
+```bash
+ls /dev/video*
+```
+
+---
+
+## Step 2 – Test the Live CSI Camera
+
+Navigate to the Jetson-Inference binary directory:
+
+```bash
+cd ~/aiot_Course/jetson-inference/build/aarch64/bin
+```
+
+Run:
+
+```bash
+./video-viewer csi://0
+```
+
+A local window should display the live CSI-camera feed.
+
+If the live video appears correctly, press:
+
+```text
+Ctrl + C
+```
+
+to stop the program.
+
+> Note: For this CSI camera, use `csi://0` rather than `/dev/video0` as the Jetson-Inference camera input.
+
+---
+
+## Step 3 – Find the Jetson IP Address
+
+Run:
+
+```bash
+ip addr show
+```
+
+Look for the active network interface, such as Wi-Fi (`wlan0`) or Ethernet (`eth0`).
+
+Find the line beginning with:
+
+```text
+inet
+```
+
+For example:
+
+```text
+inet 172.22.60.84/21
+```
+
+In this example, the Jetson IP address is:
+
+```text
+172.22.60.84
+```
+
+Do not use:
+
+```text
+127.0.0.1
+```
+
+because that address refers only to the local Jetson itself.
+
+Record your Jetson IP address:
+
+```text
+____________________________________________
+```
+
+---
+
+## Step 4 – Test Remote Camera Streaming
+
+From the Jetson, run:
+
+```bash
+./video-viewer csi://0 webrtc://@:8554/output
+```
+
+Leave this terminal running.
+
+On a laptop connected to the same network, open a web browser and go to:
+
+```text
+http://<JETSON-IP>:8554
+```
+
+Replace `<JETSON-IP>` with the address found in Step 3.
+
+For example:
+
+```text
+http://172.22.60.84:8554
+```
+
+You should see the live CSI-camera stream in the remote browser.
+
+> In the instructor-tested configuration, the WebRTC page uses `http://` rather than `https://`.
+
+---
+
+## Step 5 – Verify Network Connectivity If Needed
+
+If the remote browser cannot reach the Jetson, first verify that the WebRTC server is running.
+
+Open another terminal on the Jetson and run:
+
+```bash
+ss -ltnp | grep 8554
+```
+
+A successful result should indicate that `video-viewer` is listening on port `8554`.
+
+For example:
+
+```text
+LISTEN ... 0.0.0.0:8554 ...
+```
+
+From a Mac or Linux laptop, you may also test connectivity with:
+
+```bash
+nc -vz <JETSON-IP> 8554
+```
+
+For example:
+
+```bash
+nc -vz 172.22.60.84 8554
+```
+
+A successful connection may look like:
+
+```text
+Connection to 172.22.60.84 port 8554 succeeded!
+```
+
+If the connection succeeds but the browser does not load, confirm that you are using:
+
+```text
+http://<JETSON-IP>:8554
+```
+
+rather than HTTPS.
+
+---
+
+## Step 6 – Run Real-Time AI Inference
+
+Stop `video-viewer` by pressing:
+
+```text
+Ctrl + C
+```
+
+Then run real-time object detection using the CSI camera:
+
+```bash
+./detectnet.py csi://0 webrtc://@:8554/output
+```
+
+The pipeline is now:
+
+```text
+Physical Scene
+      ↓
+CSI Camera
+      ↓
+Jetson
+      ↓
+Object Detection
+      ↓
+Bounding Boxes / Labels
+      ↓
+WebRTC
+      ↓
+Remote Browser
+```
+
+On the remote laptop, open:
+
+```text
+http://<JETSON-IP>:8554
+```
+
+Try placing different objects in front of the camera.
 
 Observe:
 
-- whether predictions change as the physical scene changes;
-- whether inference appears to occur in real time;
-- one situation where the model performs well;
-- one situation where the model produces an unexpected result.
+- whether detected objects change as the scene changes;
+- whether inference appears to operate in real time;
+- one situation where detection performs well;
+- one situation where the model misses an object or produces an unexpected result.
 
-### Submission
+> Important: The required pretrained object-detection model must already be installed on the Jetson. If the model is missing, notify the instructor rather than attempting to download or reinstall models during the lab.
+
+---
+
+## Step 7 – Observe System Resources During Live Inference
+
+Open a second terminal and run:
+
+```bash
+tegrastats
+```
+
+Compare the system behavior during live AI inference with the idle measurements collected in Part 3.
+
+Observe changes in:
+
+- RAM usage,
+- CPU utilization,
+- CPU frequency,
+- GPU activity, if reported,
+- GPU temperature,
+- power, if reported.
+
+Press:
+
+```text
+Ctrl + C
+```
+
+to stop `tegrastats`.
+
+---
+
+## Submission
 
 Complete **Part 8 of the Submission Sheet**.
 
-If you do not complete live-camera inference during the assigned lab period,
-indicate this on the Submission Sheet.
+Include:
+
+- whether live CSI-camera inference was completed;
+- the Jetson IP address;
+- the AI task and model used;
+- one example where the model performed well;
+- one example where the model produced an incorrect or unexpected result;
+- one screenshot from the remote browser showing the live stream with inference overlays, if available.
 
 ---
 
