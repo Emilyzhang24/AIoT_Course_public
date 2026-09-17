@@ -141,15 +141,10 @@ Result:
 
 ---
 
-### P1-Q3. Was ResNet-50 slower than ResNet-18?
-
-```text
+## Part 1E — Analysis
 
 
-
-```
-
-### P1-Q4. Was the measured latency increase proportional to the increase in theoretical GMACs?
+### P1-Q3. Was the measured latency increase proportional to the increase in theoretical GMACs?
 
 - [ ] Approximately yes
 - [ ] No
@@ -163,7 +158,7 @@ Explain using your measurements:
 
 ```
 
-### P1-Q5. If the theoretical and measured ratios were different, identify at least two possible reasons.
+### P1-Q4. If the theoretical and measured ratios were different, identify at least two possible reasons.
 
 **Reason 1**
 
@@ -179,9 +174,9 @@ Explain using your measurements:
 
 ```
 
-### P1-Q6. Is theoretical model complexity alone sufficient for selecting an edge-AI model?
+### P1-Q5. Based on your results, is theoretical model complexity alone sufficient for selecting an edge-AI model?
 
-Explain:
+Explain using your measurements.
 
 ```text
 
@@ -279,7 +274,9 @@ Result: ____________ ×
 
 ## Track Q5 — Analysis
 
-### Q-Q3. Did FP16 provide higher throughput than FP32?
+### Q-Q3. Did FP16 improve throughput, and was the measured improvement close to 2×?
+
+Support your answer using your average throughput values and calculated speedup.
 
 ```text
 
@@ -287,15 +284,7 @@ Result: ____________ ×
 
 ```
 
-### Q-Q4. Was the measured speedup close to 2×?
-
-```text
-
-
-
-```
-
-### Q-Q5. Why does reducing numerical precision not guarantee a proportional runtime improvement?
+### Q-Q4. Why does reducing numerical precision not guarantee a proportional runtime improvement?
 
 ```text
 
@@ -304,7 +293,7 @@ Result: ____________ ×
 
 ```
 
-### Q-Q6. How does this FP32/FP16 experiment relate to INT8 quantization discussed in class?
+### Q-Q5. How does this FP32/FP16 experiment relate to INT8 quantization discussed in class?
 
 ```text
 
@@ -360,16 +349,7 @@ Support your answer with at least one measured value.
 
 ```
 
-### R-Q3. Did the measured result agree with your hypothesis?
-
-```text
-
-
-
-
-```
-
-### R-Q4. Was the performance difference observed in Part 1 also visible during continuous inference?
+### R-Q3. Was the performance difference observed in Part 1 also visible during continuous inference?
 
 Explain using the single-image latency and live Network FPS measurements.
 
@@ -380,7 +360,7 @@ Explain using the single-image latency and live Network FPS measurements.
 
 ```
 
-### R-Q5. Which hardware or performance measurement was most useful for comparing the two models?
+### R-Q4. Which hardware or performance measurement was most useful for comparing the two models?
 
 ```text
 
@@ -389,7 +369,7 @@ Explain using the single-image latency and live Network FPS measurements.
 
 ```
 
-### R-Q6. Why can continuous inference reveal deployment behavior that may not be obvious from a single-image benchmark?
+### R-Q5. Why can continuous inference reveal deployment behavior that may not be obvious from a single-image benchmark?
 
 ```text
 
@@ -516,16 +496,7 @@ Even if your team did not experimentally test every technique, connect your resu
 
 ---
 
-### E-Q1. If a distilled student model had fewer parameters and fewer GMACs than its teacher, what hardware benefits would you hope to observe?
-
-```text
-
-
-
-
-```
-
-### E-Q2. Which of those benefits could not be safely assumed without benchmarking the student on the Jetson?
+### E-Q1. Suppose a distilled student model has fewer parameters and fewer GMACs than its teacher. What deployment benefits would you hope to observe, and which of those benefits would still need to be measured on the Jetson??
 
 ```text
 
