@@ -173,13 +173,18 @@ For Part 1, compare the theoretical computation of ResNet-50 and ResNet-18 using
 
 ```text
 GMAC Ratio =
-ResNet-50 GMACs / ResNet-18 GMACs ```
+ResNet-50 GMACs / ResNet-18 GMACs
+```
 
 Using the provided reference values:
 
+```text
 GMAC Ratio = 4.1 / 1.8
+```
 
 A larger ratio indicates that ResNet-50 requires more theoretical computation per inference.
+
+---
 
 ## Measured Latency Ratio
 
@@ -187,32 +192,43 @@ Compare the measured inference latency using:
 
 ```text
 Latency Ratio =
-ResNet-50 Median Latency / ResNet-18 Median Latency ```
+ResNet-50 Median Latency / ResNet-18 Median Latency
+```
 
-Use the median Network CUDA latency obtained from the three trials for each model.
+Use the median `Network CUDA` latency obtained from the three trials for each model.
 
-Then compare the measured latency ratio with the theoretical GMAC ratio.
+Then compare the **measured latency ratio** with the **theoretical GMAC ratio**.
 
 If the two ratios are different, this indicates that theoretical model complexity does not translate directly into proportional runtime on the Jetson.
+
+---
 
 ## Latency Speedup
 
 When comparing a baseline model with an optimized model, use:
 
- ``` Latency Speedup =
-Baseline Latency / Optimized Latency  ```
+```text
+Latency Speedup =
+Baseline Latency / Optimized Latency
+```
 
 For Track P:
 
- ``` Latency Speedup =
-Original Model Latency / Pruned/Optimized Model Latency ```
+```text
+Latency Speedup =
+Original Model Latency / Pruned/Optimized Model Latency
+```
 
 Interpret the result as follows:
 
+```text
 Speedup > 1.0×  → Optimized model is faster
 Speedup = 1.0×  → Similar latency
 Speedup < 1.0×  → Optimized model is slower
+```
+
+---
 
 The central question is:
 
-> Does the measured latency increase in proportion to the theoretical increase in model computation?
+> **Does the measured latency increase in proportion to the theoretical increase in model computation?**
