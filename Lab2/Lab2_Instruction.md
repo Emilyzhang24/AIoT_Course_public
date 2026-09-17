@@ -158,9 +158,7 @@ Run:
 
 Replace `teamX` with your team number.
 
-Locate the TensorRT timing report.
-
-For this laboratory, record the:
+Locate the TensorRT timing report. Record the:
 
 ```text
 Network CUDA time
@@ -168,20 +166,8 @@ Network CUDA time
 
 as the **network latency**.
 
-Repeat the experiment three times.
+Repeat the experiment three times. Use the Lab 2 Submission Report to record the three measurements, predicted class, confidence, and median network latency.
 
-| Trial | Network CUDA Latency (ms) |
-|---|---:|
-| 1 | |
-| 2 | |
-| 3 | |
-
-Use the **median** of the three measurements as the representative ResNet-18 latency.
-
-Also record:
-
-- predicted class;
-- confidence.
 
 > [!NOTE]
 > The first execution may involve additional initialization. Repeated measurements help reduce the influence of timing variability.
@@ -199,20 +185,9 @@ Run:
 --profile
 ```
 
-Again record three `Network` CUDA latency values.
+Again, run the experiment three times.
 
-| Trial | Network CUDA Latency (ms) |
-|---|---:|
-| 1 | |
-| 2 | |
-| 3 | |
-
-Use the median as the representative ResNet-50 latency.
-
-Also record:
-
-- predicted class;
-- confidence.
+Use the Lab 2 Submission Report to record the three `Network` CUDA latency measurements, predicted class, confidence, and median network latency.
 
 ---
 
@@ -381,13 +356,7 @@ img/sec
 
 measurements.
 
-| Reading | FP32 Throughput (img/sec) |
-|---|---:|
-| 1 | |
-| 2 | |
-| 3 | |
-
-Calculate the average.
+Use the Lab 2 Submission Report to record three consecutive stable throughput measurements.
 
 Stop with:
 
@@ -405,15 +374,9 @@ Run:
 ./trt-bench --image=images/orange_0.jpg --GPU=FP16
 ```
 
-Again record three consecutive stable measurements.
+Again allow the benchmark to stabilize.
 
-| Reading | FP16 Throughput (img/sec) |
-|---|---:|
-| 1 | |
-| 2 | |
-| 3 | |
-
-Calculate the average.
+Use the Lab 2 Submission Report to record three consecutive stable throughput measurements.
 
 Stop with:
 
@@ -429,17 +392,9 @@ Using the **Throughput Speedup** definition in:
 
 [Reference Metrics and Formulas](Reference_Metrics.md)
 
-calculate the throughput speedup from FP32 to FP16.
+calculate the average throughput for each precision and the resulting throughput speedup.
 
-Use the average of the three stable `img/sec` readings for each precision.
-
-Record:
-
-- average FP32 throughput;
-- average FP16 throughput;
-- throughput speedup.
-
-Use these measurements to complete the Track Q section of the Lab 2 Submission Report.
+Complete the Track Q analysis in the Lab 2 Submission Report.
 
 > [!NOTE]
 > INT8 is not required in this laboratory.
@@ -498,8 +453,6 @@ While live inference is running, observe the displayed:
 Network XX FPS
 ```
 
-After the application has stabilized, record a representative Network FPS.
-
 ---
 
 ## Step R3 — Monitor ResNet-18 Hardware Usage
@@ -510,13 +463,9 @@ Open a second terminal and run:
 tegrastats
 ```
 
-While ResNet-18 is running, record one representative sample containing:
+Observe the system while inference is running.
 
-- RAM usage;
-- GPU utilization;
-- CPU utilization;
-- GPU temperature;
-- power, if reported.
+Use the Lab 2 Submission Report to capture the requested Network FPS and system measurements.
 
 Stop the inference application with:
 
@@ -528,7 +477,7 @@ Ctrl + C
 
 ## Step R4 — Run ResNet-50
 
-Run:
+Repeat the same procedure using:
 
 ```bash
 ./imagenet.py csi://0 --network=resnet-50
@@ -572,6 +521,11 @@ Jetson-Inference supports PeopleNet variants including:
 peoplenet
 peoplenet-pruned
 ```
+
+> [!IMPORTANT]
+> Attempt Track P only if both PeopleNet models are already available on the Jetson.
+>
+> If either model is unavailable, select Track R instead. Model downloading is not required or optional for completing Lab 2.
 
 ---
 
