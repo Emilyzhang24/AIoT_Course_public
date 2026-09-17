@@ -173,7 +173,7 @@ For Part 1, compare the theoretical computation of ResNet-50 and ResNet-18 using
 
 ```text
 GMAC Ratio =
-ResNet-50 GMACs / ResNet-18 GMACs
+ResNet-50 GMACs / ResNet-18 GMACs ```
 
 Using the provided reference values:
 
@@ -185,8 +185,9 @@ A larger ratio indicates that ResNet-50 requires more theoretical computation pe
 
 Compare the measured inference latency using:
 
+```text
 Latency Ratio =
-ResNet-50 Median Latency / ResNet-18 Median Latency
+ResNet-50 Median Latency / ResNet-18 Median Latency ```
 
 Use the median Network CUDA latency obtained from the three trials for each model.
 
@@ -198,13 +199,13 @@ If the two ratios are different, this indicates that theoretical model complexit
 
 When comparing a baseline model with an optimized model, use:
 
-Latency Speedup =
-Baseline Latency / Optimized Latency
+ ``` Latency Speedup =
+Baseline Latency / Optimized Latency  ```
 
 For Track P:
 
-Latency Speedup =
-Original Model Latency / Pruned/Optimized Model Latency
+ ``` Latency Speedup =
+Original Model Latency / Pruned/Optimized Model Latency ```
 
 Interpret the result as follows:
 
