@@ -4,10 +4,12 @@ This laboratory uses four types of information.
 
 | Metric | Source | Meaning |
 |---|---|---|
-| Parameters / GMACs | Instructor-provided reference | Theoretical model complexity |
+| Parameters / GMACs | Provided reference values | Theoretical model complexity |
 | Model file size | `du -h` | Storage required by the model |
 | Network latency / FPS | Jetson-Inference profiler | Measured neural-network execution performance |
-| RAM / GPU / temperature | `tegrastats` | Measured Jetson resource usage |
+| Network FPS | Calculated or displayed by Jetson-Inference | Network inferences per second |
+| Benchmark throughput | trt-bench | Sustained repeated inference rate |
+| RAM / CPU /  GPU / temperature | `tegrastats` | Measured Jetson resource usage |
 
 ---
 
@@ -49,6 +51,8 @@ Do not use:
 
 unless explicitly requested.
 
+For Part 1, three measurements are collected. Use the median Network CUDA latency as the representative latency for calculations.
+
 ---
 
 ## 2. Network FPS
@@ -78,7 +82,7 @@ Jetson-Inference uses the same relationship internally when reporting network FP
 
 ## 3. Benchmark Throughput
 
-Some experiments use `trt-bench`.
+Some experiments use `trt-bench`, e.g., Track Q.
 
 `trt-bench` repeatedly executes inference and directly reports:
 
@@ -104,6 +108,13 @@ When comparing two configurations:
 Throughput Speedup =
 Optimized img/sec / Baseline img/sec
 ```
+
+Example:
+
+FP32 = 20 img/sec
+FP16 = 26 img/sec
+
+Throughput Speedup = 26 / 20 = 1.30×
 
 ---
 
@@ -137,7 +148,7 @@ to observe:
 - GPU temperature;
 - power, if reported.
 
-Record representative values while inference is actively running.
+Use representative values when comparing two models under similar operating conditions.
 
 ---
 
@@ -152,17 +163,54 @@ The following values are provided as theoretical references:
 
 Students do not need to calculate these values from the Jetson.
 
-Use them to compare theoretical model complexity with measured Jetson performance.
+Use them to compare **theoretical model complexity** with **measured Jetson performance**.
 
-For example:
+---
+
+## Theoretical GMAC Ratio
+
+For Part 1, compare the theoretical computation of ResNet-50 and ResNet-18 using:
 
 ```text
-Theoretical comparison:
+GMAC Ratio =
 ResNet-50 GMACs / ResNet-18 GMACs
 
-Measured comparison:
-ResNet-50 network latency / ResNet-18 network latency
-```
+Using the provided reference values:
+
+GMAC Ratio = 4.1 / 1.8
+
+A larger ratio indicates that ResNet-50 requires more theoretical computation per inference.
+
+## Measured Latency Ratio
+
+Compare the measured inference latency using:
+
+Latency Ratio =
+ResNet-50 Median Latency / ResNet-18 Median Latency
+
+Use the median Network CUDA latency obtained from the three trials for each model.
+
+Then compare the measured latency ratio with the theoretical GMAC ratio.
+
+If the two ratios are different, this indicates that theoretical model complexity does not translate directly into proportional runtime on the Jetson.
+
+## Latency Speedup
+
+When comparing a baseline model with an optimized model, use:
+
+Latency Speedup =
+Baseline Latency / Optimized Latency
+
+For Track P:
+
+Latency Speedup =
+Original Model Latency / Pruned/Optimized Model Latency
+
+Interpret the result as follows:
+
+Speedup > 1.0×  → Optimized model is faster
+Speedup = 1.0×  → Similar latency
+Speedup < 1.0×  → Optimized model is slower
 
 The central question is:
 
