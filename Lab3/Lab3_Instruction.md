@@ -255,6 +255,8 @@ Record estimated inference latency, Flash/ROM, and RAM **if available**, along w
 
 For example, an **ESP-EYE estimate is not a measurement on the XIAO**.
 
+![Edge Deployment](./images/edgedeployment.png)
+
 **Submission:** Record the custom task, model/classes, training/test information, test metric, example prediction, and any available deployment estimates.
 
 ---
@@ -293,8 +295,6 @@ Keep the generated model include, such as:
 unchanged.
 
 Any camera-pin changes are made in the **example sketch**, not in the generated model header.
-
-![Edge Deployment](./images/edgedeployment.png)
 
 ### Step 2 – Adjust Camera Pins (Camera Example Only)
 
